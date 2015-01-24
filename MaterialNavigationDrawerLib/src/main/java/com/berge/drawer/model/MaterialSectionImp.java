@@ -47,6 +47,7 @@ public class MaterialSectionImp implements MaterialSection{
     private int numberNotifications;
 
     private String title;
+    private Object objAcction;
 
     public MaterialSectionImp(Context ctx, boolean hasIcon) {
 
@@ -258,6 +259,16 @@ public class MaterialSectionImp implements MaterialSection{
     @Override
     public void setTouchable(boolean isTouchable) {
         touchable = isTouchable;
+    }
+
+    @Override
+    public Object getContent() {
+        return objAcction;
+    }
+
+    @Override
+    public void setContent(Object o) {
+        this.objAcction = o;
     }
 
     // private methods

@@ -6,10 +6,12 @@ import android.graphics.drawable.Drawable;
 
 import com.berge.drawer.lisener.OnAccountDataLoaded;
 
+import java.io.Serializable;
+
 /**
  * Created by Adrià Bergé on 18/01/2015.
  */
-public interface MaterialAccount {
+public interface MaterialAccount extends Serializable{
 
     public void setPhoto(int photo);
 

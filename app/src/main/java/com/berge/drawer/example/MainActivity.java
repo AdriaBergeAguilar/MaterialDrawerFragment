@@ -1,5 +1,6 @@
 package com.berge.drawer.example;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -100,7 +101,15 @@ public class MainActivity extends ActionBarActivity implements OnItemDrawerSelec
 
     @Override
     public void onSectionSelected(MaterialSection section) {
-
+        Object l =section.getContent();
+        if(l instanceof Fragment){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_container, (Fragment) l)
+                    .commit();    
+        }else if( l instanceof Intent){
+            startActivity((Intent) l);
+        }
     }
 
     @Override
@@ -117,22 +126,10 @@ public class MainActivity extends ActionBarActivity implements OnItemDrawerSelec
     public void onChangeAccount(MaterialAccount newAccount) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, new FragmentText(newAccount))
+                .replace(R.id.main_container, FragmentText.newInstance(newAccount))
                 .commit();
     }
     
     
-    public static class FragmentText extends Fragment{
-        private MaterialAccount materialAccount;
-        public FragmentText(MaterialAccount materialAccount){
-            this.materialAccount = materialAccount;            
-        }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            TextView view = new TextView(getActivity());
-            view.setText(materialAccount.getTitle());
-            return  view;
-        }
-    }
 }

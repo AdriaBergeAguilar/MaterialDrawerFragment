@@ -138,4 +138,14 @@ public interface MaterialSection extends View.OnTouchListener {
      */
     public void setTouchable(boolean isTouchable);
 
+    /**
+     * devuelve el objeto que representa un Intent o un Fragment 
+     * para la accion que se deba al hacer click
+     */
+    public Object getContent();
+
+    /**
+     * El objecto representa un Intent o un Fragment
+     */
+    public void setContent(Object o);
 }

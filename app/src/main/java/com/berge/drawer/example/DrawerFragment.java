@@ -47,6 +47,7 @@ public class DrawerFragment extends MenuDrawerAndroidAccountFragment {
             materialSection.setSectionColor(
                     Color.rgb((int)(255 - (Math.round(Math.random()*255))), (int)(255 - (Math.round(Math.random()*255))), (int)(33 * (Math.round(Math.random()*255))))
             );
+            materialSection.setContent(FragmentText.newInstance(current));
             addSection(materialSection);
         }
         addSubheader("Bucle");
@@ -54,12 +55,10 @@ public class DrawerFragment extends MenuDrawerAndroidAccountFragment {
             MaterialSectionImp materialSection2 = new MaterialSectionImp(getActivity(), false);
             materialSection2.setTitle("Hola title " + i);
             materialSection2.setNotifications(11 * i);
-            /**
             materialSection2.setSectionColor(
-                    Color.rgb(255 - (11*i), 255 - (22*i), 33*i),
-                    Color.rgb(255 - (11*i), 255 - (22*i), 33*i)
+                    Color.rgb((int)(255 - (Math.round(Math.random()*255))), (int)(255 - (Math.round(Math.random()*255))), (int)(33 * (Math.round(Math.random()*255))))
             );
-            **/
+            materialSection2.setContent(FragmentText.newInstance(current));
             addSection(materialSection2);
         }
 
@@ -71,6 +70,7 @@ public class DrawerFragment extends MenuDrawerAndroidAccountFragment {
             materialSection2.setSectionColor(
                     getResources().getColor(R.color.color_one)
             );
+            materialSection2.setContent(new Intent(Intent.ACTION_VIEW));
             addBottomSection(materialSection2);
         }
     }
