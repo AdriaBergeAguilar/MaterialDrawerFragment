@@ -21,6 +21,11 @@ import android.graphics.drawable.Drawable;
 public class Utils {
     private Utils() {}
 
+    /**
+     * return with dependency the density with android 
+     * @param res
+     * @return
+     */
     public static int getDrawerWidth(Resources res) {
         if(res.getConfiguration().smallestScreenWidthDp >= 600 || res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // device is a tablet
@@ -32,12 +37,22 @@ public class Utils {
 
     }
 
+    /**
+     * return size with image user 
+     * @param res
+     * @return
+     */
     public static Point getUserPhotoSize(Resources res) {
         int size = (int) (64 * res.getDisplayMetrics().density);
 
         return new Point(size,size);
     }
 
+    /**
+     * size with background in proportions 9:16* 
+     * @param res
+     * @return
+     */
     public static Point getBackgroundSize(Resources res) {
         int width = getDrawerWidth(res);
 
@@ -46,6 +61,11 @@ public class Utils {
         return new Point(width,height);
     }
 
+    /**
+     * crop bitmap* 
+     * @param bitmap
+     * @return
+     */
     public static Bitmap getCroppedBitmapDrawable(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -68,6 +88,14 @@ public class Utils {
         return output;
     }
 
+    /**
+     * scalling bitmap to requiereds size 
+     * @param res
+     * @param resId
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
     public static Bitmap resizeBitmapFromResource(Resources res, int resId,int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -83,11 +111,19 @@ public class Utils {
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
+    /**
+     * scalling bitmap 
+     * @param bitmap
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
     public static Bitmap resizeBitmap(Bitmap bitmap, int reqWidth,int reqHeight) {
         return Bitmap.createScaledBitmap(bitmap,reqWidth,reqHeight,true);
 
     }
 
+    
     public static int calculateSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -111,6 +147,10 @@ public class Utils {
         return inSampleSize;
     }
 
+    /**
+     * Recycle drawables memory
+     * @param drawable
+     */
     public static void recycleDrawable(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;

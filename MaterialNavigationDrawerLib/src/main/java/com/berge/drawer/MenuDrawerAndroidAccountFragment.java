@@ -38,22 +38,51 @@ public abstract class MenuDrawerAndroidAccountFragment extends MenuDrawerAccount
         onStartAccount();
     }
 
+    /**
+     * get the type of account, packatge is a good option 
+     * @return
+     */
     public abstract String getAccountByType();
 
+    /**
+     * return the id with user current 
+     * @return
+     */
     private int getIdCurrentAccount(){
         return sharedPreferences.getInt("current", -1);
     }
 
+    /**
+     * change the id with user current 
+     * @param id
+     */
     private void setIdCurrentAccount(int id){
         sharedPreferences.edit().putInt("current", id).commit();
     }
-    
+
+    /**
+     * return the id with account 
+     * @param account
+     * @return
+     */
     public abstract int getIdAccount(Account account);
 
+    /**
+     * generate MatirialAccount with Account system 
+     * @param account
+     * @return
+     */
     public abstract MaterialAccount getMatirialAccount(Account account);
 
+    /**
+     * get the tocken with determinet the permisions user. 
+     * @return
+     */
     public abstract String getAccountAuthTokenAccess();
 
+    /**
+     * reed all accounts in the system. 
+     */
     private void onStartAccount() {
         removedAccounts();
         Account current = null;
@@ -108,6 +137,9 @@ public abstract class MenuDrawerAndroidAccountFragment extends MenuDrawerAccount
         }
     }
 
+    /**
+     * Open activity with system add user 
+     */
     public void newAccount(){
         accountManager.addAccount(
                 getAccountByType(),
@@ -119,7 +151,11 @@ public abstract class MenuDrawerAndroidAccountFragment extends MenuDrawerAccount
                 null);
 
     }
-    
+
+    /**
+     * get a Account system current 
+     * @return
+     */
     public Account getCurrentAccount(){
         MaterialAccount materialAccount = getCurrentMaterialAccount();
         if(materialAccount != null) {
@@ -134,7 +170,13 @@ public abstract class MenuDrawerAndroidAccountFragment extends MenuDrawerAccount
         super.switchAccount(position, newAccount);
         setIdCurrentAccount(newAccount.getId());
     }
-    
+
+    /**
+     * return account system with your id
+     * @param id
+     * @param list
+     * @return
+     */
     private Account getAccount(int id, Account[] list){
         for(Account account : list){
             if( id == getIdAccount(account)){

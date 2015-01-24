@@ -18,17 +18,19 @@ public class FragmentText extends Fragment {
     public static FragmentText newInstance(MaterialAccount materialAccount){
         FragmentText f = new FragmentText();
         Bundle arg = new Bundle();
-        arg.putSerializable("account", materialAccount);
+        if(materialAccount != null) {
+            arg.putString("account", materialAccount.getTitle());
+        }
         f.setArguments(arg);
         return f;        
     }
     
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        MaterialAccount materialAccount = (MaterialAccount) getArguments().getSerializable("account");
+        String materialAccount = getArguments().getString("account");
         TextView view = new TextView(getActivity());
         if(materialAccount != null) {
-            view.setText(materialAccount.getTitle());
+            view.setText(materialAccount);
         }
         return  view;
     }

@@ -18,9 +18,17 @@ import com.berge.drawer.R;
  */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
-
+    /**
+     * List of accounts not current 
+     */
     private List<MaterialAccount> accounts;
+    /**
+     * LayoutInflater, on instance 
+     */
     private LayoutInflater inflater;
+    /**
+     * Listener with onItemClickListener ListView 
+     */
     private OnClickOtherAccountListener onClickOtherAccountListener;
 
     public UsersAdapter(){
@@ -55,12 +63,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         return accounts.size();
     }
 
+    /**
+     * Removed account with the list 
+     * @param materialAccount account eliminate
+     */
     public void removeAccount(MaterialAccount materialAccount) {
         int position = accounts.indexOf(materialAccount);
         accounts.remove(position);
         notifyItemRemoved(position);
     }
 
+    /**
+     * Add account in the list 
+     * @param materialAccount account add
+     * @param position position to add the account
+     */
     public void addAccount(MaterialAccount materialAccount, int position) {
         if(position == -1){
             position = 0;
@@ -69,10 +86,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         notifyItemInserted(position);
     }
 
+    /**
+     * change instance listener 
+     * @param onClickOtherAccountListener
+     */
     public void setOnClickOtherAccountListener(OnClickOtherAccountListener onClickOtherAccountListener) {
         this.onClickOtherAccountListener = onClickOtherAccountListener;
     }
 
+    /**
+     * get all accounts in the list
+     * @return
+     */
     public List<MaterialAccount> getAllItems() {
         return accounts;
     }

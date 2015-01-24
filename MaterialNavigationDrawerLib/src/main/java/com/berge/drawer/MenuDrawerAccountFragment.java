@@ -18,6 +18,9 @@ import com.berge.drawer.model.MaterialAccount;
 import java.util.List;
 
 /**
+ * This implementation not header configuration, the header is container
+ * to accounts.
+ *  
  * Created by Adrià Bergé on 16/01/15
  */
 public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
@@ -99,16 +102,28 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         }
     }
 
+    /**
+     * change imatge with user clck add ather user in fragment
+     * @param resource
+     */
     public void setAddUserDrawable(int resource){
         addUser.setImageDrawable(getResources().getDrawable(resource));
     }
 
+    /**
+     * delete all acounts in the view, not deletet with sistem 
+     */
     public void removedAccounts() {
         for(MaterialAccount materialAccount : mAdapter.getAllItems()){
             mAdapter.removeAccount(materialAccount);
         }
     }
-    
+
+    /**
+     * add one matirialAccount and determinet with this account is current or not 
+     * @param materialAccount
+     * @param current
+     */
     public void addAccount(MaterialAccount materialAccount, boolean current){
         materialAccount.setAccountListener(accountDataLoadedListener);
         if(current) {
@@ -116,6 +131,10 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         }
     }
 
+    /**
+     * set all views with a current account 
+     * @param materialAccount
+     */
     private void addCurrentAccount(MaterialAccount materialAccount) {
         if(materialAccount != null) {
             this.currentAccount = materialAccount;
@@ -136,10 +155,20 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         }
     }
 
+    /**
+     * add inactive account in the list 
+     * @param materialAccount
+     * @param index
+     */
     private void addOtherAccount(MaterialAccount materialAccount, int index) {
         mAdapter.addAccount(materialAccount, index);
     }
 
+    /**
+     * generate all acctions in the change one account with current 
+     * @param position
+     * @param newAccount
+     */
     protected void switchAccount(int position, MaterialAccount newAccount){
         mAdapter.removeAccount(newAccount);
         addOtherAccount(currentAccount, position);
@@ -150,10 +179,23 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         onStartDrawerStructure();
     }
 
+    /**
+     * get the current account 
+     * @return
+     */
     public MaterialAccount getCurrentMaterialAccount(){
         return this.currentAccount;
     }
+
+    /**
+     * configure all accounts
+     * @param view
+     */
     protected abstract void onConfigureAccounts(View view);
+
+    /**
+     * user click a button add account
+     */
     protected abstract void onCreateAccount();
 
     private View.OnClickListener currentAccountListener = new View.OnClickListener() {

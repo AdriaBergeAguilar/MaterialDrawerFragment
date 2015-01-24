@@ -28,11 +28,13 @@ import java.util.List;
 
 
 /**
+ * Fragment Drawer, is a basic version, one Header and list of sections
+ *
  * Created by Adrià Bergé on 16/01/15
  */
 public abstract class MenuDrawerFragment extends Fragment{
 
-    public static final int BOTTOM_SECTION_START = 100;
+    private static final int BOTTOM_SECTION_START = 100;
 
     protected OnItemDrawerSelectedListener listenerActivity;
 
@@ -48,6 +50,7 @@ public abstract class MenuDrawerFragment extends Fragment{
 
     private int idStatusBar = -1;
 
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listenerActivity = (OnItemDrawerSelectedListener)activity;
@@ -135,10 +138,20 @@ public abstract class MenuDrawerFragment extends Fragment{
         super.onSaveInstanceState(outState);
     }
 
+    /**
+     * Create a View to insert in the position header 
+     * @return
+     */
     public abstract View onConfigureHeader();
 
+    /**
+     * generate all sections 
+     */
     public abstract void onStartDrawerStructure();
-    
+
+    /**
+     * delete all sections of drawer 
+     */
     protected void removedStructure(){
         sectionList.removeAll(sectionList);
         sections.removeAllViews();
@@ -146,10 +159,18 @@ public abstract class MenuDrawerFragment extends Fragment{
         bottomSectionList.removeAll(bottomSectionList);
     }
 
+    /**
+     * change id status bar 
+     * @param idStatusBar
+     */
     public void setIdStatusBar(int idStatusBar) {
         this.idStatusBar = idStatusBar;
     }
 
+    /**
+     * add section basic 
+     * @param section
+     */
     public void addSection(MaterialSection section){
         section.setOnClickListener(materialSectionListener);
         section.setPosition(sectionList.size());
@@ -158,6 +179,10 @@ public abstract class MenuDrawerFragment extends Fragment{
         sections.addView(section.getView(),params);
     }
 
+    /**
+     * add bottom section, not scrolling sections
+     * @param section
+     */
     public void addBottomSection(MaterialSection section) {
         section.setOnClickListener(materialSectionListener);
         section.setPosition(BOTTOM_SECTION_START + bottomSectionList.size());
@@ -166,6 +191,9 @@ public abstract class MenuDrawerFragment extends Fragment{
         bottomSections.addView(section.getView(),params);
     }
 
+    /**
+     * Add divider in list sections 
+     */
     public void addDivisor() {
         View view = new View(getActivity());
         view.setBackgroundColor(getResources().getColor(R.color.menu_divisor));
@@ -175,6 +203,10 @@ public abstract class MenuDrawerFragment extends Fragment{
         sections.addView(view, params);
     }
 
+    /**
+     * add header in list sections 
+     * @param title
+     */
     public void addSubheader(CharSequence title) {
         View subheader = LayoutInflater.from(getActivity()).inflate(R.layout.layout_material_subheader,sections,false);
         TextView subheaderTitle = (TextView) subheader.findViewById(R.id.subheader_text);
@@ -184,6 +216,9 @@ public abstract class MenuDrawerFragment extends Fragment{
     }
 
 
+    /**
+     *  This object generated all secunce of succesors in he user click one section.
+     */
     private MaterialSectionListener materialSectionListener = new MaterialSectionListener() {
         @Override
         public void onClick(MaterialSection section) {
@@ -213,6 +248,10 @@ public abstract class MenuDrawerFragment extends Fragment{
 
     };
 
+    /**
+     * Configure status, navigation, actionbar with section clicked
+     * @param section
+     */
     private void configureActionBar(MaterialSection section) {
 
         int primaryColor;
