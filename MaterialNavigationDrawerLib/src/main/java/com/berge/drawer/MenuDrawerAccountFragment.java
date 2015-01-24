@@ -32,7 +32,7 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
 
     private boolean drawerTouchLocked;
 
-    private MaterialAccountListener accountListener;
+    protected MaterialAccountListener accountListener;
 
     private MaterialAccount currentAccount;
     private UsersAdapter mAdapter;
@@ -74,7 +74,7 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         addUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                accountListener.onCreateAccount();
+                onCreateAccount();
                 listenerActivity.closeDrawer();
             }
         });
@@ -103,38 +103,58 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         addUser.setImageDrawable(getResources().getDrawable(resource));
     }
 
+    public void removedAccounts() {
+        for(MaterialAccount materialAccount : mAdapter.getAllItems()){
+            mAdapter.removeAccount(materialAccount);
+        }
+    }
+    
     public void addAccount(MaterialAccount materialAccount, boolean current){
         materialAccount.setAccountListener(accountDataLoadedListener);
         if(current) {
             currentAccount = materialAccount;
-        } else {
-            mAdapter.addAccount(materialAccount, 0);
         }
     }
 
     private void addCurrentAccount(MaterialAccount materialAccount) {
-        this.currentAccount = materialAccount;
-        this.userEmail.setText(currentAccount.getSubTitle());
-        this.userName.setText(currentAccount.getTitle());
-        this.userImage.setImageDrawable(currentAccount.getCircularPhoto());
-        this.userCover.setImageDrawable(currentAccount.getBackground());
-        this.userCover.setOnClickListener(currentAccountListener);
-        this.userImage.setOnClickListener(currentAccountListener);
+        if(materialAccount != null) {
+            this.currentAccount = materialAccount;
+            this.userEmail.setText(currentAccount.getSubTitle());
+            this.userName.setText(currentAccount.getTitle());
+            this.userImage.setImageDrawable(currentAccount.getCircularPhoto());
+            this.userCover.setImageDrawable(currentAccount.getBackground());
+            this.userCover.setOnClickListener(currentAccountListener);
+            this.userImage.setOnClickListener(currentAccountListener);
+        }else{
+            this.currentAccount = null;
+            this.userEmail.setText("");
+            this.userName.setText("");
+            this.userImage.setImageDrawable(null);
+            this.userCover.setImageDrawable(null);
+            this.userCover.setOnClickListener(null);
+            this.userImage.setOnClickListener(null);
+        }
     }
 
     private void addOtherAccount(MaterialAccount materialAccount, int index) {
         mAdapter.addAccount(materialAccount, index);
     }
 
-    private void switchAccount(int position, MaterialAccount newAccount){
+    protected void switchAccount(int position, MaterialAccount newAccount){
         mAdapter.removeAccount(newAccount);
         addOtherAccount(currentAccount, position);
         currentAccount = newAccount;
         addCurrentAccount(currentAccount);
         accountListener.onChangeAccount(currentAccount);
+        removedStructure();
+        onStartDrawerStructure();
     }
 
+    public MaterialAccount getCurrentMaterialAccount(){
+        return this.currentAccount;
+    }
     protected abstract void onConfigureAccounts(View view);
+    protected abstract void onCreateAccount();
 
     private View.OnClickListener currentAccountListener = new View.OnClickListener() {
 
@@ -166,6 +186,8 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         public void onUserPhotoLoaded(MaterialAccount account) {
             if(currentAccount.equals(account)){
                 addCurrentAccount(account);
+                removedStructure();
+                onStartDrawerStructure();
             }else {
                 addOtherAccount(account, -1);
             }

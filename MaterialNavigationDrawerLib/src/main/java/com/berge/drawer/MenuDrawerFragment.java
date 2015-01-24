@@ -138,6 +138,13 @@ public abstract class MenuDrawerFragment extends Fragment{
     public abstract View onConfigureHeader();
 
     public abstract void onStartDrawerStructure();
+    
+    protected void removedStructure(){
+        sectionList.removeAll(sectionList);
+        sections.removeAllViews();
+        bottomSections.removeAllViews();
+        bottomSectionList.removeAll(bottomSectionList);
+    }
 
     public void setIdStatusBar(int idStatusBar) {
         this.idStatusBar = idStatusBar;

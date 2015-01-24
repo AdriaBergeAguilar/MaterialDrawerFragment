@@ -6,12 +6,15 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.berge.drawer.lisener.OnItemDrawerSelectedListener;
 
@@ -111,11 +115,24 @@ public class MainActivity extends ActionBarActivity implements OnItemDrawerSelec
 
     @Override
     public void onChangeAccount(MaterialAccount newAccount) {
-
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, new FragmentText(newAccount))
+                .commit();
     }
+    
+    
+    public static class FragmentText extends Fragment{
+        private MaterialAccount materialAccount;
+        public FragmentText(MaterialAccount materialAccount){
+            this.materialAccount = materialAccount;            
+        }
 
-    @Override
-    public void onCreateAccount() {
-
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            TextView view = new TextView(getActivity());
+            view.setText(materialAccount.getTitle());
+            return  view;
+        }
     }
 }

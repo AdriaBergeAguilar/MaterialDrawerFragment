@@ -1,5 +1,6 @@
 package com.berge.drawer.model;
 
+import android.accounts.Account;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
@@ -40,5 +41,8 @@ public interface MaterialAccount {
 
     public void setId(int id);
 
+    public void setModel(Object account);
+
+    public Object getModel();
 }
 

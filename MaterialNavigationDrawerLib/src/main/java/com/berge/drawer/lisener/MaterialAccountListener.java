@@ -11,5 +11,4 @@ public interface MaterialAccountListener {
 
     public void onChangeAccount(MaterialAccount newAccount);
 
-    public void onCreateAccount();
 }

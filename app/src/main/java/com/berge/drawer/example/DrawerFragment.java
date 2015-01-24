@@ -1,24 +1,55 @@
 package com.berge.drawer.example;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.accounts.AuthenticatorException;
+import android.accounts.OperationCanceledException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 
 import com.berge.drawer.MenuDrawerAccountFragment;
 
+import com.berge.drawer.MenuDrawerAndroidAccountFragment;
+import com.berge.drawer.model.MaterialAccount;
 import com.berge.drawer.model.MaterialAccountImpl;
 import com.berge.drawer.model.MaterialSectionImp;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Adria on 14/01/2015.
  */
-public class DrawerFragment extends MenuDrawerAccountFragment {
-
+public class DrawerFragment extends MenuDrawerAndroidAccountFragment {
 
     @Override
     public void onStartDrawerStructure() {
 
         setIdStatusBar(R.id.statusBar);
 
+        MaterialAccount current = getCurrentMaterialAccount();
+        if(current != null) {
+            addSubheader("Account");
+            MaterialSectionImp materialSection = new MaterialSectionImp(getActivity(), false);
+            materialSection.setTitle(current.getTitle());
+            //materialSection.setNotifications();
+            materialSection.setSectionColor(
+                    Color.rgb((int)(255 - (Math.round(Math.random()*255))), (int)(255 - (Math.round(Math.random()*255))), (int)(33 * (Math.round(Math.random()*255))))
+            );
+            addSection(materialSection);
+        }
+        addSubheader("Bucle");
         for(int i = 0; i != 10 ; i++) {
             MaterialSectionImp materialSection2 = new MaterialSectionImp(getActivity(), false);
             materialSection2.setTitle("Hola title " + i);
@@ -32,8 +63,8 @@ public class DrawerFragment extends MenuDrawerAccountFragment {
             addSection(materialSection2);
         }
 
-        addSubheader("Bottom");
-        for(int i = 0; i != 2 ; i++) {
+        
+        for(int i = 0; i != 1 ; i++) {
             MaterialSectionImp materialSection2 = new MaterialSectionImp(getActivity(), false);
             materialSection2.setTitle("Hola title " + i);
             materialSection2.setNotifications(11 * i);
@@ -47,32 +78,47 @@ public class DrawerFragment extends MenuDrawerAccountFragment {
     @Override
     protected void onConfigureAccounts(View view) {
         setAddUserDrawable(android.R.drawable.ic_menu_add);
+    }
 
-        MaterialAccountImpl account = new MaterialAccountImpl(getResources(), 1, "NeoKree", "neokree@gmail.com", R.drawable.photo, R.drawable.mat3);
-        this.addAccount(account, true);
+    @Override
+    public String getAccountByType(){
+        return "com.google";        
+    }
 
-        MaterialAccountImpl account2 = new MaterialAccountImpl(getResources(), 2, "Hatsune Miky", "hatsune.miku@example.com", R.drawable.photo2, R.drawable.mat2);
-        this.addAccount(account2, true);
+    HashMap<Account, Integer> table = new HashMap<>();
+    @Override
+    public int getIdAccount(Account account) {
+        if(!table.containsKey(account)){
+            table.put(account, (int)(Math.random() * 4096));
+        }
+        return table.get(account);
+    }
 
-        MaterialAccountImpl account3 = new MaterialAccountImpl(getResources(), 3, "Example", "example@example.com", R.drawable.photo, R.drawable.bamboo);
-        this.addAccount(account3, true);
-/**
-        MaterialAccount account4 = new MaterialAccount(getResources(), "Hatsune Miky", "hatsune.miku@example.com", R.drawable.photo2, R.drawable.mat2);
-        this.addAccount(account4, true);
 
+    @Override
+    public String getAccountAuthTokenAccess() {
+        return "all";
+    }
 
-        MaterialAccount account5 = new MaterialAccount(getResources(), "NeoKree", "neokree@gmail.com", R.drawable.photo, R.drawable.mat3);
-        this.addAccount(account5, true);
+    @Override
+    public MaterialAccount getMatirialAccount(Account account) {
+        MaterialAccount materialAccount = new MaterialAccountImpl(
+                getResources(),
+                getIdAccount(account),
+                account.name,
+                account.type,
+                getImageRandom(R.drawable.photo,R.drawable.photo2, R.drawable.ic_launcher),
+                getImageRandom(R.drawable.mat2, R.drawable.mat3)
+        );               
+        materialAccount.setModel(account);
+                
+        return materialAccount;
+    }
 
-        MaterialAccount account6 = new MaterialAccount(getResources(), "Hatsune Miky", "hatsune.miku@example.com", R.drawable.photo2, R.drawable.mat2);
-        this.addAccount(account6, true);
-
-        MaterialAccount account7 = new MaterialAccount(getResources(), "Example", "example@example.com", R.drawable.photo, R.drawable.bamboo);
-        this.addAccount(account7, true);
-
-        MaterialAccount account8 = new MaterialAccount(getResources(), "Hatsune Miky", "hatsune.miku@example.com", R.drawable.photo2, R.drawable.mat2);
-        this.addAccount(account8, true);
-**/
-
+    
+    public int getImageRandom(int... images){
+        int position = (int)(Math.round(Math.random() * images.length));
+        position = position >= images.length ? images.length -1 : position;
+        return images[position];
     }
 }

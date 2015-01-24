@@ -1,5 +1,6 @@
 package com.berge.drawer.model;
 
+import android.accounts.Account;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -24,6 +25,7 @@ public class MaterialAccountImpl implements MaterialAccount {
 
     private Resources resources;
     private OnAccountDataLoaded listener;
+    private Object model;
 
 
     public MaterialAccountImpl(Resources res, int id, String title, String subTitle, int photo, Bitmap background) {
@@ -150,6 +152,16 @@ public class MaterialAccountImpl implements MaterialAccount {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public void setModel(Object account) {
+        this.model = account;
+    }
+
+    @Override
+    public Object getModel() {
+        return model;
     }
 
     private AsyncTask<Integer, Void, BitmapDrawable> resizePhotoResource = new AsyncTask<Integer, Void, BitmapDrawable>() {
