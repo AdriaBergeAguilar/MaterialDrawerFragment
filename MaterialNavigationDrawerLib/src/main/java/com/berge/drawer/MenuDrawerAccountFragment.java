@@ -1,7 +1,6 @@
 package com.berge.drawer;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

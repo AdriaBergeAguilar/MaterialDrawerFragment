@@ -1,12 +1,9 @@
 package com.berge.drawer.model;
 
-import android.accounts.Account;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import com.berge.drawer.lisener.OnAccountDataLoaded;
-
-import java.io.Serializable;
 
 /**
  * Encapsule info with user to representate in drawer

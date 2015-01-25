@@ -1,6 +1,5 @@
 package com.berge.drawer.model;
 
-import android.accounts.Account;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;

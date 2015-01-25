@@ -276,8 +276,8 @@ public class MaterialSectionImp implements MaterialSection{
        }
     }
 
-    @Override
-    public void afterClick() {
+
+    private void afterClick() {
         isSelected = true;
 
         if (sectionColor) {

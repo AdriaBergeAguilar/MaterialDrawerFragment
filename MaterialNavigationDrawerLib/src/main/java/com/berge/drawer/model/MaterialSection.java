@@ -2,7 +2,6 @@ package com.berge.drawer.model;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.berge.drawer.lisener.MaterialSectionListener;
@@ -149,5 +148,4 @@ public interface MaterialSection extends View.OnTouchListener {
      */
     public void setContent(Object o);
 
-    void afterClick();
 }

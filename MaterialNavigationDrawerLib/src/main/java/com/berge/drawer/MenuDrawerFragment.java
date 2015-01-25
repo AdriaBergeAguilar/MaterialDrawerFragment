@@ -96,8 +96,12 @@ public abstract class MenuDrawerFragment extends Fragment{
         startCurrentSection();
     }
 
+    /**
+     * se ejecuta despues de que se haya creado las secciones 
+     */
     public void startCurrentSection() {
         if(currentSection == null) {
+            //fixme se debe meditar como poder configurar esta sentencia
             currentSection = sectionList.get(0);
         }
         currentSection.onTouch(null, MotionEvent.obtain(1, 1, MotionEvent.ACTION_UP, 1, 1, 1));
@@ -320,17 +324,5 @@ public abstract class MenuDrawerFragment extends Fragment{
                 bar.setDisplayShowTitleEnabled(true);
             }
         }
-    }
-
-    private View getFirstMaterialSection() {
-        for (int i = 0; i != sections.getChildCount(); i++) {
-            View view = sections.getChildAt(i);
-            Object obj = view.getTag();
-            if(obj instanceof MaterialSection){
-                MaterialSection materialSection = (MaterialSection) obj;
-                return view;
-            }           
-        }
-        return null;
     }
 }

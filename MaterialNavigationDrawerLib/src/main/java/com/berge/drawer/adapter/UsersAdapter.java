@@ -6,12 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.berge.drawer.R;
 import com.berge.drawer.lisener.OnClickOtherAccountListener;
 import com.berge.drawer.model.MaterialAccount;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.berge.drawer.R;
 
 /**
  * Created by Adria on 18/01/2015.
