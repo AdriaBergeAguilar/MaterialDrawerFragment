@@ -66,7 +66,7 @@ public class MaterialSectionImp implements MaterialSection{
 
 
         view.setOnTouchListener(this);
-
+        view.setTag(this);
 
         colorPressed = Color.parseColor("#16000000");
         colorUnpressed = Color.parseColor("#00FFFFFF");
@@ -82,27 +82,19 @@ public class MaterialSectionImp implements MaterialSection{
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if(touchable) {
-
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
+            if (event == null || event.getAction() == MotionEvent.ACTION_UP) {
+                view.setBackgroundColor(colorSelected);
+                afterClick();
+                return true;
+            }else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 view.setBackgroundColor(colorPressed);
                 return true;
-            }
-
-            if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-
+            }else if(event.getAction() == MotionEvent.ACTION_CANCEL) {
                 if (isSelected) {
                     view.setBackgroundColor(colorSelected);
                 }else {
                     view.setBackgroundColor(colorUnpressed);
                 }
-                return true;
-            }
-
-
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                view.setBackgroundColor(colorSelected);
-                afterClick();
                 return true;
             }
         }
@@ -284,7 +276,8 @@ public class MaterialSectionImp implements MaterialSection{
        }
     }
 
-    private void afterClick() {
+    @Override
+    public void afterClick() {
         isSelected = true;
 
         if (sectionColor) {
@@ -300,4 +293,5 @@ public class MaterialSectionImp implements MaterialSection{
             listener.onClick(this);
     }
 
+  
 }

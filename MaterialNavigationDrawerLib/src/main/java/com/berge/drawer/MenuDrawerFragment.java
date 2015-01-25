@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -36,6 +37,8 @@ public abstract class MenuDrawerFragment extends Fragment{
 
     private static final int BOTTOM_SECTION_START = 100;
 
+    private boolean activityfinish = false;
+    
     protected OnItemDrawerSelectedListener listenerActivity;
 
     private LinearLayout sections;
@@ -59,6 +62,7 @@ public abstract class MenuDrawerFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityfinish = false;
     }
 
     @Override
@@ -84,16 +88,19 @@ public abstract class MenuDrawerFragment extends Fragment{
         if(contentHeader != null) {
             header.addView(contentHeader);
         }
-        // init section
-        currentSection = sectionList.get(0);
-        currentSection.select();
-        listenerActivity.onSectionSelected(currentSection);
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        startCurrentSection();
+    }
+
+    public void startCurrentSection() {
+        if(currentSection == null) {
+            currentSection = sectionList.get(0);
+        }
+        currentSection.onTouch(null, MotionEvent.obtain(1, 1, MotionEvent.ACTION_UP, 1, 1, 1));
         configureActionBar(currentSection);
     }
 
@@ -105,6 +112,7 @@ public abstract class MenuDrawerFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+        activityfinish = true;
     }
 
     @Override
@@ -157,6 +165,7 @@ public abstract class MenuDrawerFragment extends Fragment{
         sections.removeAllViews();
         bottomSections.removeAllViews();
         bottomSectionList.removeAll(bottomSectionList);
+        currentSection = null;
     }
 
     /**
@@ -226,9 +235,11 @@ public abstract class MenuDrawerFragment extends Fragment{
             configureActionBar(section);
 
             listenerActivity.onSectionSelected(section);
-            listenerActivity.closeDrawer();
+            if(activityfinish) {
+                listenerActivity.closeDrawer();
+            }
             currentSection = section;
-            //section.select();
+            section.select();
 
             int position = section.getPosition();
 
@@ -309,5 +320,17 @@ public abstract class MenuDrawerFragment extends Fragment{
                 bar.setDisplayShowTitleEnabled(true);
             }
         }
+    }
+
+    private View getFirstMaterialSection() {
+        for (int i = 0; i != sections.getChildCount(); i++) {
+            View view = sections.getChildAt(i);
+            Object obj = view.getTag();
+            if(obj instanceof MaterialSection){
+                MaterialSection materialSection = (MaterialSection) obj;
+                return view;
+            }           
+        }
+        return null;
     }
 }

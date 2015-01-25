@@ -148,4 +148,6 @@ public interface MaterialSection extends View.OnTouchListener {
      * El objecto representa un Intent o un Fragment
      */
     public void setContent(Object o);
+
+    void afterClick();
 }

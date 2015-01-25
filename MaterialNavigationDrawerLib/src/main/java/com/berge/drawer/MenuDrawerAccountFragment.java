@@ -177,6 +177,7 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
         accountListener.onChangeAccount(currentAccount);
         removedStructure();
         onStartDrawerStructure();
+        startCurrentSection();
     }
 
     /**
@@ -230,6 +231,8 @@ public abstract class MenuDrawerAccountFragment extends MenuDrawerFragment {
                 addCurrentAccount(account);
                 removedStructure();
                 onStartDrawerStructure();
+                startCurrentSection();
+                
             }else {
                 addOtherAccount(account, -1);
             }

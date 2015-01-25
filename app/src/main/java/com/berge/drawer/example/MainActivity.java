@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.berge.drawer.lisener.OnItemDrawerSelectedListener;
 
@@ -119,7 +120,7 @@ public class MainActivity extends ActionBarActivity implements OnItemDrawerSelec
 
     @Override
     public void onAccountOpening(MaterialAccount account) {
-
+        Toast.makeText(this, account.getTitle(), Toast.LENGTH_LONG).show();
     }
 
     @Override
