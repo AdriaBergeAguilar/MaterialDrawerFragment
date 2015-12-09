@@ -152,6 +152,7 @@ public class Utils {
      * @param drawable
      */
     public static void recycleDrawable(Drawable drawable) {
+
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             bitmapDrawable.getBitmap().recycle();
